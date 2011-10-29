@@ -1,0 +1,6 @@
+Seems smarter to keep these lightweight shell scripts in one umbrella repository than to make a repo for each one.
+
+  10/28/11:
+  - Moved Harvest here. Further updates will happen in this repo.
+  - Added extract_draw.sh, a utility for converting the output of the AI->Canvas Plug-In for Illustrator into JavaScript that I can easily turn into drawing instructions.
+  - Got my hands dirty with sed for the first time today.
