@@ -1,5 +1,12 @@
 Seems smarter to keep these lightweight shell scripts in one umbrella repository than to make a repo for each one.
 
+  10/30/11:
+  - Updated extract_draw.sh to run the sed transformations on every file in the current directory and spit the results out into a file named "jump.txt."
+  
+  Dumb names, I know. But it works like a charm. In about two seconds, it just cleaned and concatenated 59 HTML files, turning them into 59 JavaScript array members each containing drawing instructions for their respective frames of animation. It gave me one file to cut and paste.
+
+  This was a lot of fun.
+
   10/28/11:
   - Moved Harvest here. Further updates will happen in this repo.
   - Added extract_draw.sh, a utility for converting the output of the AI->Canvas Plug-In for Illustrator into JavaScript that I can easily turn into drawing instructions.
