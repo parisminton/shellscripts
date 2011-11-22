@@ -9,7 +9,7 @@
 # for calling them sequentially in an animation.
 
 # Learn more about the Ai->Canvas Export Plug-In at 
-# http://visitmix.com/labs/at2canvas.
+# http://visitmix.com/labs/ai2canvas.
 
 # Written by parisminton for Concrete Daydreams.
 # <parisminton@da.ydrea.ms>
@@ -17,10 +17,16 @@
 #vrs="v 0.1"
 #last_change="10/30/11"
 
-# OLD_IFS=$IFS
-# IFS=$(echo -en "\n\b")
+OLD_IFS=$IFS
+IFS=$(echo -en "\n\b")
 
-args=$(ls -1 .)
+character=$1
+args=$(ls -1 *.html)
+
+echo "$character = new Character(\"$character\", false);
+$character.show();
+$character.sequence.main.cels = [" > cels.js
+
 
 for filename in $args; do
 
@@ -36,8 +42,8 @@ for filename in $args; do
       render\ :\ function/
         s/}$/}\
   };/
-      ' < $filename >> jump.txt
+      ' < $filename >> cels.js
 
 done
 
-# IFS=$OLD_IFS
+IFS=$OLD_IFS
