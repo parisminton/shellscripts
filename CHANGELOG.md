@@ -4,6 +4,16 @@ Shell scripts
 Changelog
 ---------
 
+*11/22/11* 
+
+**extract_draw.sh**
+
+1. Replaced the standard drawing methods with `record` versions.
+
+2. Added a test to see if the current file being converted to drawing instructions is the last file in the list. If so, it closes the array that wraps it.
+
+
+
 *11/21/11* 
 
 **extract_draw.sh**
@@ -15,6 +25,7 @@ Changelog
 3. Changed the name of the output file to *cels.js*.
 
 
+
 *10/30/11*
 
 **extract_draw.sh**
@@ -22,7 +33,8 @@ Changelog
 1. Updated *extract_draw.sh* to run the sed transformations on every file in the current directory and spit the results out into a file named *jump.txt*.
 
 
-**10/28/11**
+
+*10/28/11*
 
 **Harvest**
 

@@ -14,35 +14,60 @@
 # Written by parisminton for Concrete Daydreams.
 # <parisminton@da.ydrea.ms>
 
-#vrs="v 0.1"
-#last_change="10/30/11"
+#vrs="v 0.2"
+#last_change="11/22/11"
 
 OLD_IFS=$IFS
 IFS=$(echo -en "\n\b")
 
 character=$1
-args=$(ls -1 *.html)
+fileindex=0
 
 echo "$character = new Character(\"$character\", false);
 $character.show();
 $character.sequence.main.cels = [" > cels.js
 
+# ...we need to be able to refer to these files by a unique index number, so we\'ll store them in an array ...
+for filename in $(ls -1 *.html); do
+  files[$fileindex]=$filename
+  fileindex=$(($fileindex+1))
+  filetotal=${#files[*]}
+done
 
-for filename in $args; do
+for ((i=0; i<$filetotal; i++)); do
+  if [ "$i" -eq "$((${#files[*]} - 1))" ]; then
+    sed '
+        /function vaulter/, /}$/ !d
+          s/    function/  function/
+          s/ [a-zA-Z0-9]*(ctx) {$/ (ctx) {\
+    if \('"$character"'.visible\) {/
+          s/ctx.moveTo(\([0-9][0-9\.]*, [0-9][0-9\.]*\));/recordMoveTo('"$character"', ctx, \1);/
+          s/ctx.lineTo(\([0-9][0-9\.]*, [0-9][0-9\.]*\));/recordLineTo('"$character"', ctx, \1);/
+          s/ctx.bezierCurveTo(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordBezierCurveTo('"$character"', ctx, \1);/
+          s/ctx.strokeRect(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordStrokeRect('"$character"', ctx, \1);/
+          s/ctx.fillRect(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordFillRect('"$character"', ctx, \1);/
+          s/}$/}\
+  }\
+]/
+        ' < ${files[$i]} >> cels.js
 
-  name=$(echo $filename) 
-  index=$(echo $name | sed -n 's/[a-zA-Z_.\-]*\([0-9][0-9]*\)[a-zA-Z_.\-]*\.html$/\1/p')
 
-  sed '
-      /function vaulter/, /}$/ !d
-        s/    function/function/
-        s/vaulter(ctx)/(ctx)/
-        s/function/  pv.cels['"$index"']= {\
-      breakpoint : false\,\
-      render\ :\ function/
-        s/}$/}\
-  };/
-      ' < $filename >> cels.js
+  else
+    sed '
+        /function vaulter/, /}$/ !d
+          s/    function/  function/
+          s/ [a-zA-Z0-9]*(ctx) {$/ (ctx) {\
+    if \('"$character"'.visible\) {/
+          s/ctx.moveTo(\([0-9][0-9\.]*, [0-9][0-9\.]*\));/recordMoveTo('"$character"', ctx, \1);/
+          s/ctx.lineTo(\([0-9][0-9\.]*, [0-9][0-9\.]*\));/recordLineTo('"$character"', ctx, \1);/
+          s/ctx.bezierCurveTo(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordBezierCurveTo('"$character"', ctx, \1);/
+          s/ctx.strokeRect(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordStrokeRect('"$character"', ctx, \1);/
+          s/ctx.fillRect(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordFillRect('"$character"', ctx, \1);/
+          s/}$/}\
+  },\
+/
+        ' < ${files[$i]} >> cels.js
+  fi
 
 done
 
