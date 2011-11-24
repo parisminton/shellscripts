@@ -4,6 +4,16 @@ Shell scripts
 Changelog
 ---------
 
+*11/24/11* 
+
+**celhelper.sh**
+
+1. Modified the script to accept the names of Characters as arguments.
+
+2. Renamed this script from *extract_draw.sh* to *celhelper.sh*
+
+
+
 *11/22/11* 
 
 **extract_draw.sh**
