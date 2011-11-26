@@ -4,13 +4,21 @@ Shell scripts
 Changelog
 ---------
 
+*11/25/11*
+
+**addzero.sh**
+
+1. Created and made first commit.
+
+
+
 *11/24/11* 
 
 **celhelper.sh**
 
-1. Modified the script to accept the names of Characters as arguments.
+1. Now accepts `Character` names as arguments.
 
-2. Renamed this script from *extract_draw.sh* to *celhelper.sh*
+2. Renamed this script *celhelper.sh*
 
 
 
@@ -18,7 +26,7 @@ Changelog
 
 **extract_draw.sh**
 
-1. Replaced the standard drawing methods with `record` versions.
+1. Replaced the standard drawing methods with `record`- versions.
 
 2. Added a test to see if the current file being converted to drawing instructions is the last file in the list. If so, it closes the array that wraps it.
 
