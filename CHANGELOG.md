@@ -4,6 +4,20 @@ Shell scripts
 Changelog
 ---------
 
+*12/3/11*
+
+**smart_open.sh**
+
+1. Copied out of my *.bash_profile* and made first commit.
+
+**float.sh**
+
+1. First commit. Code comes from [Linux Journal][1]
+
+[1]: http://www.linuxjournal.com/content/floating-point-math-bash "Floating Point Math in Bash"
+
+
+
 *11/25/11*
 
 **addzero.sh**
