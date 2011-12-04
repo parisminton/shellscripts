@@ -12,7 +12,7 @@ Changelog
 
 **float.sh**
 
-1. First commit. Code comes from [Linux Journal][1]
+1. First commit. Originial code comes from [Linux Journal][1]
 
 [1]: http://www.linuxjournal.com/content/floating-point-math-bash "Floating Point Math in Bash"
 
