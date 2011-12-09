@@ -4,6 +4,14 @@ Shell scripts
 Changelog
 ---------
 
+*12/9/11*
+
+**celhelper.sh**
+
+1. Adapted to adhere to the new "record"-less `Character` methods. Got rid of a lot of now-unnecessary sed rules. 
+
+
+
 *12/3/11*
 
 **smart_open.sh**
@@ -12,7 +20,7 @@ Changelog
 
 **float.sh**
 
-1. First commit. Originial code comes from [Linux Journal][1]
+1. First commit. Original code comes from [Linux Journal][1]
 
 [1]: http://www.linuxjournal.com/content/floating-point-math-bash "Floating Point Math in Bash"
 

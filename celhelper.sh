@@ -12,18 +12,15 @@
 # http://visitmix.com/labs/ai2canvas.
 
 # Written by parisminton for Concrete Daydreams.
-# <parisminton@da.ydrea.ms>
+# <parisminton [at] da.ydrea.ms>
 
 #vrs="v 0.3"
-#last_change="11/24/11"
-
-OLD_IFS=$IFS
-IFS=$(echo -en "\n\b")
+#last_change="12/8/11"
 
 fileindex=0
 args=($*)
 
-# ...declare our variables at the top of the function...
+# ...store arguments in a comma-separated string so we can declare our variables at the top of the function...
 for ((i=0; i<${#args[*]}; i++ )); do
   if [ "$arg_list_string" ]; then
     arg_list_string=$(echo $arg_list_string | sed -n 's/\([a-zA-Z0-9_\-][a-zA-Z0-9_ \-\,]*\);$/\1, '"${args[$i]}"';/p')
@@ -32,59 +29,61 @@ for ((i=0; i<${#args[*]}; i++ )); do
   fi
 done
 
-# ...we need to be able to refer to these files by a unique index number, so we\'ll store them in an array...
-for filename in $(ls -1 *.html); do
-  files[$fileindex]=$filename
-  fileindex=$(($fileindex+1))
-  filetotal=${#files[*]}
-done
-
 echo "function loadCharacters () {
   var $arg_list_string
   " >> cels.js
 
 for ((j=0; j<${#args[*]}; j++)); do
 
+  arg_total=$(echo "${args[$j]}"* | wc -w)
+
   echo "  ${args[$j]} = new Character(\"${args[$j]}\", false);
   ${args[$j]}.show();
   ${args[$j]}.sequence.main.cels = [" >> cels.js
 
-  for ((k=0; k<$filetotal; k++)); do
-    if [ "$k" -eq "$((${#files[*]} - 1))" ]; then
+   for file in ${args[$j]}*.html; do
+    # ... isolate the number in the filename. we'll use it to test if this is the last file of the sequence ...
+    sequence=$(echo "$file" | sed -n 's/^[a-zA-Z_.][a-zA-Z0-9.\-]*_\([0-9][0-9]*\)\.html$/\1/p')
+
+    if [ "$sequence" -eq $(($arg_total - 1)) ]; then
       sed '
-          /function vaulter/, /}$/ !d
+          /function '"${args[$j]}"'/, /}$/ !d
             s/      \/\//        \/\//
-            s/ [a-zA-Z0-9]*(ctx) {$/ (ctx) {\
+            s/ [a-zA-Z0-9]*(ctx) {$/ () {\
       if \('"${args[$j]}"'.visible\) {/
             s/ctx\./  ctx\./
-            s/ctx.moveTo(\([0-9][0-9\.]*, [0-9][0-9\.]*\));/recordMoveTo('"${args[$j]}"', ctx, \1);/
-            s/ctx.lineTo(\([0-9][0-9\.]*, [0-9][0-9\.]*\));/recordLineTo('"${args[$j]}"', ctx, \1);/
-            s/ctx.bezierCurveTo(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordBezierCurveTo('"${args[$j]}"', ctx, \1);/
-            s/ctx.strokeRect(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordStrokeRect('"${args[$j]}"', ctx, \1);/
-            s/ctx.fillRect(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordFillRect('"${args[$j]}"', ctx, \1);/
+            s/ctx.lineWidth = \([0-9][0-9\.]*\);/'"${args[$j]}"'.lineWidth(\1);/
+            s/ctx.lineJoin = \("[a-z][a-z]*"\);/'"${args[$j]}"'.lineJoin(\1);/
+            s/ctx.miterLimit = \([0-9][0-9\.]*\);/'"${args[$j]}"'.miterLimit(\1);/
+            s/addColorStop(\([0-9][0-9\.]*, [a-z"][a-zA-Z0-9 #(),"]*\));/addColorStop(gradient, \1);/
+            s/ctx.fillStyle = \([a-z"][a-zA-Z0-9 #(),"]*\);/'"${args[$j]}"'.fillStyle(\1);/
+            s/ctx.strokeStyle = \([a-z"][a-zA-Z0-9 #(),"]*\);/'"${args[$j]}"'.strokeStyle(\1);/
+            s/ctx/'"${args[$j]}"'/
           s/}$/  }\
     }\
   ];\
 /
-          ' < ${files[$k]} >> cels.js
+          ' < $file >> cels.js
 
 
     else
       sed '
-          /function vaulter/, /}$/ !d
+          /function '"${args[$j]}"'/, /}$/ !d
             s/      \/\//        \/\//
-            s/ [a-zA-Z0-9]*(ctx) {$/ (ctx) {\
+            s/ [a-zA-Z0-9]*(ctx) {$/ () {\
       if \('"${args[$j]}"'.visible\) {/
             s/ctx\./  ctx\./
-            s/ctx.moveTo(\([0-9][0-9\.]*, [0-9][0-9\.]*\));/recordMoveTo('"${args[$j]}"', ctx, \1);/
-            s/ctx.lineTo(\([0-9][0-9\.]*, [0-9][0-9\.]*\));/recordLineTo('"${args[$j]}"', ctx, \1);/
-            s/ctx.bezierCurveTo(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordBezierCurveTo('"${args[$j]}"', ctx, \1);/
-            s/ctx.strokeRect(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordStrokeRect('"${args[$j]}"', ctx, \1);/
-            s/ctx.fillRect(\([0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*, [0-9][0-9\.]*\));/recordFillRect('"${args[$j]}"', ctx, \1);/
+            s/ctx.lineWidth = \([0-9][0-9\.]*\);/'"${args[$j]}"'.lineWidth(\1);/
+            s/ctx.lineJoin = \("[a-z][a-z]*"\);/'"${args[$j]}"'.lineJoin(\1);/
+            s/ctx.miterLimit = \([0-9][0-9\.]*\);/'"${args[$j]}"'.miterLimit(\1);/
+            s/addColorStop(\([0-9][0-9\.]*, [a-z"][a-zA-Z0-9 #(),"]*\));/addColorStop(gradient, \1);/
+            s/ctx.fillStyle = \([a-z"][a-zA-Z0-9 #(),"]*\);/'"${args[$j]}"'.fillStyle(\1);/
+            s/ctx.strokeStyle = \([a-z"][a-zA-Z0-9 #(),"]*\);/'"${args[$j]}"'.strokeStyle(\1);/
+            s/ctx/'"${args[$j]}"'/
             s/}$/  }\
     },\
 /
-          ' < ${files[$k]} >> cels.js
+          ' < $file >> cels.js
     fi
 
   done
@@ -97,5 +96,3 @@ done
 
 echo "
 };" >> cels.js
-
-IFS=$OLD_IFS
