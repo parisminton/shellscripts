@@ -6,7 +6,7 @@
 # <parisminton@da.ydrea.ms>
 
 vrs='v 0.7'
-lastchange='8/15/11'
+lastchange='11/23/12'
 
 
 echo -e "\n--> Harvest $vrs $lastchange <--"
@@ -58,6 +58,10 @@ function collect () {
       multi="Disc $multi"
     fi
   fi
+}
+
+function mokey () {
+  echo -e "I will try to fix you."
 }
 
 function archive () {
@@ -136,6 +140,7 @@ if [ "$(ls -1 /Volumes | grep -vf ~/.int_vols)" ]; then
       break
     done
     
+    mokey
     collect $disc
     archive
 
@@ -144,6 +149,7 @@ if [ "$(ls -1 /Volumes | grep -vf ~/.int_vols)" ]; then
     y_or_n
     if [ "$pick" == "y" ]; then
       collect ${fn[0]}
+      archive
     else
       echo $tryagain
     fi
