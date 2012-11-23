@@ -4,6 +4,14 @@ Shell scripts
 Changelog
 ---------
 
+*11/24/12*
+
+**harvest.sh**
+
+1. Fixed a branch where archive() was never called. 
+
+
+
 *12/9/11*
 
 **celhelper.sh**
