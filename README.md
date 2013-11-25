@@ -4,8 +4,20 @@ Shell scripts
 Seems smarter to keep these lightweight shell scripts in one umbrella repository than to make a repo for each one.
 
 
+collapse - 11/24/13
+-------------------
+
+Make human-readable JSON machine-readable. Flatten a JavaScript object (or any text file) into one line, shrinking multiple spaces into single spaces.
+
+I know this exists already. I just wanted to make one myself.
+
+Takes argument `filename` and copies it to `filename_collapsed` in the directory of your choice, passed as an optional second argument. 
+
+Also takes argument `directory`, batch collapses and copies each contained file. 
+
+
 Float - 12/2/11
-------------------
+---------------
 
 Hard to believe bash doesn't support floating point numbers. These functions, barely modified from their original form in [Linux Journal][1], pipe floating point numbers to bc where the expression is evaluated and returned to standard output.
 
@@ -23,7 +35,7 @@ A utility for converting the output of the AI->Canvas Plug-In for Illustrator in
 
 
 Smart Open - 10/20/11
-------------------
+---------------------
 
 This function allows simpler syntax with the find utility to more easily open multiple files in various programs.
 

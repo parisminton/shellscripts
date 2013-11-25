@@ -1,0 +1,57 @@
+#!/bin/sh
+#
+# > collapse <
+#
+# Opposite of prettyprint, but I didn't want to call it uglyprint.
+# Code is not ugly.
+#
+# Flatten a JavaScript object into one line, multiple spaces into single spaces.
+# james@da.ydrea.ms
+
+function collapsefile () {
+  # distill the path down to a filename
+  if [[ $1 =~ '/' ]]; then
+    origin_filename=$(echo "$1" | sed 's/.*\/\(.*\)$/\1/g')
+  else
+    origin_filename=$1
+  fi
+
+  # split the filename components
+  if [[ $origin_filename =~ '.' ]]; then
+    rootname=$(echo "$origin_filename" | sed 's/\(.*\)\..*$/\1/g')
+    extension=$(echo "$origin_filename" | sed 's/.*\(\..*\)$/\1/g')
+  else
+    rootname=$origin_filename
+    extension=''
+  fi
+
+  if [[ -z "$2" ]]; then
+    destination=path/to/your/default/directory
+  elif [ -d "$2" ]; then
+    # append a trailing slash if there isn't one
+    destination=$(echo "$2" | sed 's/\(.*[^\/]\)$/\1\//g')
+  else
+    echo "Uh-oh. $2 is not a directory."
+    exit 1
+  fi
+
+  sed -E -e 's/^}$/ }/g' -e 's/[[:space:]]+/ /g' $1 | tr -d "\n" > "$destination$rootname"_collapsed"$extension"
+}
+
+# pass a file as the first argument ...
+if [ -f "$1" ]; then
+  collapsefile "$1" "$2"
+  exit 0
+
+# ... or, pass a directory as the first argument and batch collapse its files
+elif [ -d "$1" ]; then
+  # append a trailing slash if there isn't one
+  directory=$(echo "$1" | sed 's/\(.*[^\/]\)$/\1\//g')
+  for file in "$directory"*; do
+    collapsefile "$file" "$2"
+  done
+  exit 0
+else
+  echo "Uh-oh. $1 is not a file."
+  exit 1
+fi

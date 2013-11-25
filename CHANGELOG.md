@@ -4,6 +4,14 @@ Shell scripts
 Changelog
 ---------
 
+*11/24/13*
+
+**collapse**
+
+1. First commit. Yes, my last change in this repo was really a year ago today.
+
+
+
 *11/24/12*
 
 **harvest.sh**
