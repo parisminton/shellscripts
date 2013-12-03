@@ -4,6 +4,16 @@ Shell scripts
 Changelog
 ---------
 
+*12/3/13*
+
+**collapse**
+
+1. Run in bash.
+
+2. Un-comment to enable current directory if collapsed files have no destination.
+
+
+
 *11/24/13*
 
 **collapse**

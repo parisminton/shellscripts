@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # > collapse <
 #
@@ -8,7 +8,7 @@
 # Flatten a JavaScript object into one line, multiple spaces into single spaces.
 # james@da.ydrea.ms
 
-function collapsefile () {
+function collapsefile {
   # distill the path down to a filename
   if [[ $1 =~ '/' ]]; then
     origin_filename=$(echo "$1" | sed 's/.*\/\(.*\)$/\1/g')
@@ -26,6 +26,7 @@ function collapsefile () {
   fi
 
   if [[ -z "$2" ]]; then
+    # destination=./ # if there's no default destination, otherwise ...
     destination=path/to/your/default/directory
   elif [ -d "$2" ]; then
     # append a trailing slash if there isn't one
