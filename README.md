@@ -4,6 +4,12 @@ Shell scripts
 Seems smarter to keep these lightweight shell scripts in one umbrella repository than to make a repo for each one.
 
 
+browser - 5/7/14
+-------------------
+
+Open a random Web browser, an exercise in seeing how pages render in a variety of contexts.
+
+
 collapse - 11/24/13
 -------------------
 
