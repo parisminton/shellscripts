@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+# > browser <
+#
+# Launch a random browser, forcing me to view sites regularly
+# in a variety of contexts.
+#
+# james@da.ydrea.ms
+
+rand=$(echo $RANDOM | sed -n 's/[0-9]*\([0-9]\)$/\1/gp')
+
+if (( $rand < 3 )); then
+  open -a /Applications/Safari.app $1
+elif (( $rand > 2 && $rand < 6 )); then
+  open -a /Applications/Opera.app $1
+elif (( $rand > 5 && $rand < 8 )); then
+  open -a /Applications/Firefox.app $1
+elif (( $rand > 7 )); then
+  open -a /Applications/Google\ Chrome\ Canary.app $1
+fi

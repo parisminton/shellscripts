@@ -4,6 +4,14 @@ Shell scripts
 Changelog
 ---------
 
+*5/8/14*
+
+**browser**
+
+1. Added this command to launch a random browser, forcing me to view sites in a variety of contexts.
+
+
+
 *12/3/13*
 
 **collapse**
