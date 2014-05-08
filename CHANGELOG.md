@@ -6,7 +6,7 @@ Changelog
 
 *5/8/14*
 
-**browser**
+**browse**
 
 1. Added this command to launch a random browser, forcing me to view sites in a variety of contexts.
 
