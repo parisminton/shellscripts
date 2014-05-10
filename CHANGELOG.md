@@ -4,6 +4,14 @@ Shell scripts
 Changelog
 ---------
 
+*5/10/14*
+
+**smart_open**
+
+1. Work with zsh, where arrays aren't zero-indexed.
+
+
+
 *5/8/14*
 
 **browse**

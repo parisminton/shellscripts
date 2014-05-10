@@ -1,13 +1,13 @@
 #!/bin/bash
-
+#
 # > smart_open.sh <
-# Syntactic sugar on top of bash find for opening multiple files with similar properties in various applications.
-
-# Written by parisminton for Concrete Daydreams.
+#
+# Sugar on top of bash find for opening multiple files with similar properties in various applications.
+#
 # <parisminton@da.ydrea.ms>
-
-#vrs="v 0.1"
-#last_change="10/15/11"
+#
+#vrs="v 0.2"
+#last_change="5/10/14"
 
 function smart_open () {
   OLD_IFS=$IFS
@@ -20,6 +20,13 @@ function smart_open () {
   ftype="f"
   find_stuff=false
   for arg in $*; do 
+    # zsh arrays are not zero-indexed
+    if [[ $SHELL =~ \.zsh$ ]]; then
+      push_ndx=(${#arg_array[@]} + 1)
+    else
+      push_ndx=${#arg_array[@]} + 1
+    fi
+
     if [[ $arg =~ \.app$ || -L $arg ]]; then
       mod="-a"
       app=$arg
@@ -40,7 +47,7 @@ function smart_open () {
       ftype=$arg
       continue
     fi
-    arg_array[${#arg_array[@]}]=$arg
+    arg_array[push_ndx]=$arg
   done 
   
   if [[ $find_stuff == true ]]; then
