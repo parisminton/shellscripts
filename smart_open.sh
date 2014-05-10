@@ -24,7 +24,7 @@ function smart_open () {
     if [[ $SHELL =~ \.zsh$ ]]; then
       push_ndx=(${#arg_array[@]} + 1)
     else
-      push_ndx=${#arg_array[@]} + 1
+      push_ndx=${#arg_array[@]}
     fi
 
     if [[ $arg =~ \.app$ || -L $arg ]]; then
