@@ -8,7 +8,9 @@ Changelog
 
 **smart_open**
 
-1. Work with zsh, where arrays aren't zero-indexed.
+1. This is now a proper shell script, not a shell function. It works in its own process and doesn't mess with variables in the environment. Running bash means there's no problem with zero-indexed arrays, regardless of the shell which called it.
+
+~~2. Work with zsh, where arrays aren't zero-indexed.~~
 
 
 
