@@ -4,6 +4,12 @@ Shell scripts
 Seems smarter to keep these lightweight shell scripts in one umbrella repository than to make a repo for each one.
 
 
+sesame - 6/17/14
+---------------------
+
+This function allows simpler syntax with the find utility to more easily open multiple files in various programs. For Macs.
+
+
 browse - 5/7/14
 -------------------
 
@@ -38,12 +44,6 @@ Cel Helper - 10/28/11
 ---------------------
 
 A utility for converting the output of the AI->Canvas Plug-In for Illustrator into JavaScript drawing instructions. Used in tandem with my animation library.
-
-
-Smart Open - 10/20/11
----------------------
-
-This function allows simpler syntax with the find utility to more easily open multiple files in various programs.
 
 
 Harvest - 10/20/11

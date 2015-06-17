@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# > smart_open <
+# > sesame <
 #
 # Sugar on top of find for opening multiple files with similar properties in various applications.
 #
 # parisminton@da.ydrea.ms
 #
-# vrs="v 0.2"
-# last_change="5/10/14"
+# vrs="v 0.3"
+# last_change="6/17/15"
 
 OLD_IFS=$IFS
 IFS=$(echo -en "\n\b") # new separator is newline followed by backspace...
@@ -23,6 +23,12 @@ for arg in $*; do
   if [[ $arg =~ \.app$ || -L $arg ]]; then
     mod="-a"
     app=$arg
+    if [[ $arg == $photo ]]; then
+      # I'm probably trying to open a screen shot
+      # that went straight to the desktop
+      find_stuff="true"
+      dir=~/Desktop
+    fi
     continue
   fi
   if [[ -d $arg ]]; then

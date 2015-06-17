@@ -4,13 +4,19 @@ Shell scripts
 Changelog
 ---------
 
+*6/17/15*
+
+**sesame** (formerly **smart_open**)
+
+Knows when you're trying to use Photoshop to open a screen shot saved to the Desktop. I do this several times a day, and the appropriate `find` command is always unwieldy.
+
+
+
 *5/10/14*
 
 **smart_open**
 
-1. This is now a proper shell script, not a shell function. It works in its own process and doesn't mess with variables in the environment. Running bash means there's no problem with zero-indexed arrays, regardless of the shell which called it.
-
-~~2. Work with zsh, where arrays aren't zero-indexed.~~
+This is now a proper shell script, not a shell function. It works in its own process and doesn't mess with variables in the environment. Running bash means there's no problem with zero-indexed arrays, regardless of the shell which called it.
 
 
 
@@ -18,7 +24,7 @@ Changelog
 
 **browse**
 
-1. Added this command to launch a random browser, forcing me to view sites in a variety of contexts.
+Added this command to launch a random browser, forcing me to view sites in a variety of contexts.
 
 
 
@@ -36,7 +42,7 @@ Changelog
 
 **collapse**
 
-1. First commit. Yes, my last change in this repo was really a year ago today.
+First commit. Yes, my last change in this repo was really a year ago today.
 
 
 
