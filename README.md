@@ -4,8 +4,8 @@ Shell scripts
 Seems smarter to keep these lightweight shell scripts in one umbrella repository than to make a repo for each one.
 
 
-sesame - 6/17/14
----------------------
+sesame - 6/17/15
+----------------
 
 This function allows simpler syntax with the find utility to more easily open multiple files in various programs. For Macs.
 
