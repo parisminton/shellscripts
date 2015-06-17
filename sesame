@@ -52,7 +52,7 @@ for arg in $*; do
 done 
 
 if [[ $find_stuff == "true" ]]; then
-  find $dir/* -mtime $dur -type $ftype -exec open $mod $app {} \;"
+  find $dir/* -mtime $dur -type $ftype -exec open $mod $app {} \;
 else
   open $mod $app ${arg_array[*]}
 fi
