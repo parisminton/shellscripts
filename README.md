@@ -7,7 +7,7 @@ Seems smarter to keep these lightweight shell scripts in one umbrella repository
 sesame - 6/17/15
 ----------------
 
-This function allows simpler syntax with the find utility to more easily open multiple files in various programs. For Macs.
+This function allows simpler syntax with the `find` utility to more easily open multiple files in various programs. For Macs.
 
 
 browse - 5/7/14
