@@ -4,10 +4,16 @@ Shell scripts
 Seems smarter to keep these lightweight shell scripts in one umbrella repository than to make a repo for each one.
 
 
+jack - 6/18/15
+--------------
+
+`ack` searches over multiple files within a time span using `find`, without all the messy syntax.
+
+
 sesame - 6/17/15
 ----------------
 
-This function allows simpler syntax with the `find` utility to more easily open multiple files in various programs. For Macs.
+This command allows simpler syntax with the `find` utility to more easily open multiple files in various programs. For Macs.
 
 
 browse - 5/7/14

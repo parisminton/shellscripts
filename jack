@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+# > jack (James's ack) <
+#
+# Sugar on top of ack for finding text within multiple documents modified within a certain interval
+#
+# parisminton@da.ydrea.ms
+#
+# vrs="v 0.1"
+# last_change="6/18/15"
+
+OLD_IFS=$IFS
+IFS=$(echo -en "\n\b") # new separator is newline followed by backspace...
+scope=$PWD
+dur="-7d"
+term=$1
+find_stuff=false
+
+for arg in $*; do 
+  if [[ $arg == $1 ]]; then #skip the search term
+    continue
+  fi
+  if [[ $arg =~ -[0-9][0-9]*[smhdw]$ ]]; then
+    find_stuff=true
+    dur=$arg
+    continue
+  fi
+  if [[ -d $arg ]]; then
+    find_stuff=true
+    scope=$arg
+    continue
+  fi
+  if [[ -f $arg ]]; then
+    scope=$arg
+    continue
+  fi
+done 
+
+if [[ $find_stuff == true ]]; then
+  find $scope/* -mtime $dur -exec ack -H $term {} \;
+  exit 0
+else
+  ack $term $scope
+  exit 0
+fi
+IFS=$OLD_IFS

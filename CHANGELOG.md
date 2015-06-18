@@ -4,6 +4,14 @@ Shell scripts
 Changelog
 ---------
 
+*6/18/15*
+
+**jack**
+
+Added this command for easier `ack` searches on multiple files within a duration, using `find`.
+
+
+
 *6/17/15*
 
 **sesame** (formerly **smart_open**)
