@@ -17,7 +17,7 @@ mod=""
 dir=$PWD
 dur="-5m"
 ftype="f"
-find_stuff="false"
+find_stuff=false
 
 for arg in $*; do 
   if [[ $arg =~ \.app$ || -L $arg ]]; then
@@ -26,7 +26,7 @@ for arg in $*; do
     if [[ $arg == $photo ]]; then
       # I'm probably trying to open a screen shot
       # that went straight to the desktop
-      find_stuff="true"
+      find_stuff=true
       if [[ $dir == $PWD ]]; then 
         dir=~/Desktop
       fi
@@ -34,24 +34,24 @@ for arg in $*; do
     continue
   fi
   if [[ -d $arg ]]; then
-    find_stuff="true"
+    find_stuff=true
     dir=$arg
     continue
   fi
   if [[ $arg =~ -[0-9][0-9]*[smhdw]$ ]]; then
-    find_stuff="true"
+    find_stuff=true
     dur=$arg
     continue
   fi
   if [[ $arg =~ ^[fdl]$ ]]; then
-    find_stuff="true"
+    find_stuff=true
     ftype=$arg
     continue
   fi
   arg_array[${#arg_array[@]}]=$arg
 done 
 
-if [[ $find_stuff == "true" ]]; then
+if [[ $find_stuff == true ]]; then
   find $dir/* -mtime $dur -type $ftype -exec open $mod $app {} \;
 else
   open $mod $app ${arg_array[*]}
