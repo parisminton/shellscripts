@@ -1,23 +1,23 @@
 #!/bin/bash
 
-# > harvest.sh <
-# Identifies audio CDs and copies their contents to my archive directory
+# > harvest <
+# Identifies audio CDs and copies their contents to an archive directory
 # Written by parisminton for Concrete Daydreams.
 # <parisminton@da.ydrea.ms>
 
-vrs='v 0.7'
-lastchange='11/23/12'
+vrs='v 0.8'
+lastchange='11/7/15'
 
 
 echo -e "\n--> Harvest $vrs $lastchange <--"
 
-# ...change IFS to newline...
+# change IFS to newline
 OLD_IFS=$IFS
 IFS=$'\n'
 
 i=0
 
-tryagain="\n--> I can't find any more external volumes. Are you sure you inserted a CD or external drive?"
+tryagain="--> I can't find any more external volumes. Are you sure you inserted a CD or external drive?"
 
 function y_or_n () {
   until [ "$pick" == "y" -o "$pick" == "n" ]; do
@@ -27,7 +27,7 @@ function y_or_n () {
 }
 
 function collect () {
-  the_disc=$1 # is this still necessary?
+  the_disc=$1
   multi=null
   ls /Volumes/$1
   echo -e "\n--> What's the artist's name?\n"
@@ -60,14 +60,26 @@ function collect () {
   fi
 }
 
-function mokey () {
-  echo -e "I will try to fix you."
+function check_archive () {
+  if [ ! -e "$musicpath" ]; then 
+    echo -e "\n--> $musicpath is not a valid directory. Try a new location."
+    unset musicpath
+    set_archive
+  fi
+}
+
+function set_archive () {
+  until [ ! -z "$musicpath" ]; do
+    echo -e "\n--> Where will you archive this music?\n"
+    read musicpath
+  done
+  check_archive
 }
 
 function archive () {
-  musicpath="/Volumes/180 gram/Uncompressed/"
+  set_archive
 
-  # see if we\'ve already stored this artist...
+  # see if we\'ve already stored this artist
   if [ ! -e "$musicpath/$artist" ]; then 
     mkdir "$musicpath/$artist"
     echo -e "\n--> I just created a folder named \"$artist.\""
@@ -76,7 +88,7 @@ function archive () {
   fi
   cd "$musicpath/$artist"
     
-  #see if we\'ve already stored this album...
+  # see if we\'ve already stored this album
   if [ ! -e "$musicpath/$artist/$album" ]; then
     mkdir "$musicpath/$artist/$album"
     echo -e "\n--> I just created a folder named \"$album.\""
@@ -85,7 +97,7 @@ function archive () {
   fi
   cd "$musicpath/$artist/$album"
 
-  #see if we\'ve already stored this disc from the set...
+  # see if we\'ve already stored this disc from the set
   if [ "$multi" != null ]; then
     if [ ! -e "$musicpath/$artist/$album/$multi" ]; then
       mkdir "$musicpath/$artist/$album/$multi"
@@ -118,9 +130,9 @@ function archive () {
 
 }
 
-# ...compare the /Volumes list to the pre-defined list of internal volumes
+# compare the /Volumes list to the pre-defined list of internal volumes
 # we know aren\'t the audio CD; any inverse matches are likely to be the
-# CD we want to archive...
+# CD we want to archive
 if [ "$(ls -1 /Volumes | grep -vf ~/.int_vols)" ]; then
 
   for filename in $(ls -1 /Volumes | grep -vf ~/.int_vols); do
@@ -140,12 +152,11 @@ if [ "$(ls -1 /Volumes | grep -vf ~/.int_vols)" ]; then
       break
     done
     
-    mokey
     collect $disc
     archive
 
   else
-    echo "\n--> Does the volume named \"${fn[0]}\" contain the music you want to archive?"    
+    echo -e "\n--> Does the volume named \"${fn[0]}\" contain the music you want to archive?"    
     y_or_n
     if [ "$pick" == "y" ]; then
       collect ${fn[0]}
@@ -159,5 +170,5 @@ else
   echo $tryagain
 fi
 
-# ...restore IFS...
+# restore IFS
 IFS=$OLD_IFS

@@ -4,6 +4,14 @@ Shell scripts
 Changelog
 ---------
 
+*11/7/15*
+
+**harvest**
+
+Let the user set the archive directory.
+
+
+
 *6/18/15*
 
 **jack**
