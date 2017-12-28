@@ -4,6 +4,14 @@ Shell scripts
 Changelog
 ---------
 
+*12/28/17*
+
+**convert**
+
+Recursively search directories containing uncompressed audio files and bulk-convert them to a new codec.
+
+
+
 *11/7/15*
 
 **harvest**

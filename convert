@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# > convert <
+# Uses ffmpeg to convert audio files to different codecs.
+# Written by parisminton for Concrete Daydreams.
+# <parisminton@da.ydrea.ms>
+
+# Usage: `convert <source> <destination> <codec>`
+
+vrs='v 0.1'
+lastchange='12/27/17'
+echo -e "\n--> Convert $vrs $lastchange <--"
+
+# change IFS to newline
+OLD_IFS=$IFS
+IFS=$'\n'
+
+# if no arguments, exit -1 and warn the user she needs to choose a source, destination and codec
+
+# if only one argument, exit -1 and warn the user she needs to choose a destination
+
+# if only two arguments, exit -1 and warn the user she needs to choose a codec
+
+src="$1"
+destination="$2"
+codec="$3"
+
+i=0
+
+function filter () {
+  if [ -d "$1" ]; then
+    # make breadcrumb trail of destinations
+    old_dest[$i]=$destination
+    i=$(($i+1))
+
+    mkdir "$destination/$1"
+    destination="$destination/$1"
+    echo "All destinations are ${old_dest[*]}"
+    echo "$destination"
+
+    # drill down to files
+    cd "$1"
+    for new_path in $(ls -1); do
+      filter $new_path
+    done
+
+    cd ..
+    destination="${old_dest[($i-1)]}"
+    unset old_dest[$i]
+    i=$(($i-1))
+  else
+    # conversion happens here
+    cp $1 $destination
+    echo $1
+  fi
+}
+
+for path in $(ls -1 $src); do
+  filter $path
+  i=0
+done
