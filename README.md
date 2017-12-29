@@ -4,6 +4,12 @@ Shell scripts
 Seems smarter to keep these lightweight shell scripts in one umbrella repository than to make a repo for each one.
 
 
+convert - 12/27/17
+--------------
+
+Bulk-conversion of .aiff files to  other codecs, using `ffmpeg`. I need this to operate on the many thousands of songs I harvested from CDs.
+
+
 jack - 6/18/15
 --------------
 
@@ -34,13 +40,13 @@ Takes argument `filename` and copies it to `filename_collapsed` in the directory
 Also takes argument `directory`, batch collapses and copies each contained file. 
 
 
-Float - 12/2/11
+float - 12/2/11
 ---------------
 
 Hard to believe bash doesn't support floating point numbers. These functions, barely modified from their original form in [Linux Journal][1], pipe floating point numbers to bc where the expression is evaluated and returned to standard output.
 
 
-Addzero - 11/25/11
+addzero - 11/25/11
 ------------------
 
 Adds a zero before the single digit in file names separated by an underscore. Designed to help keep files in sequence in directory listings. Otherwise, you get listings like `_0.txt, _1.txt, _10.txt, _11.txt, _12.txt, ... _2.txt, _20.txt, _21.txt, _22.txt, ... _3.txt, _30.txt, _31.txt, _32.txt, ...`
@@ -52,7 +58,7 @@ Cel Helper - 10/28/11
 A utility for converting the output of the AI->Canvas Plug-In for Illustrator into JavaScript drawing instructions. Used in tandem with my animation library.
 
 
-Harvest - 10/20/11
+harvest - 10/20/11
 ------------------
 
 This bash script identifies audio CDs and copies their contents to an archive directory.

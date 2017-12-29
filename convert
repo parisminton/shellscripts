@@ -5,38 +5,53 @@
 # Written by parisminton for Concrete Daydreams.
 # <parisminton@da.ydrea.ms>
 
-# Usage: `convert <source> <destination> <codec>`
+# Dependencies: ffmpeg (https://ffmpeg.org/)
 
-vrs='v 0.1'
-lastchange='12/27/17'
-echo -e "\n--> Convert $vrs $lastchange <--"
+# Usage: `convert <source> <destination> [<source_codec>] <destination_codec>`
+# If you don't provide a source codec, Convert will search for .aiff files by default.
+
+vrs='v0.1'
+lastchange='12/29/17'
+echo -e "\n--> Convert $vrs $lastchange <--\n"
 
 # change IFS to newline
 OLD_IFS=$IFS
 IFS=$'\n'
 
-# if no arguments, exit -1 and warn the user she needs to choose a source, destination and codec
-
-# if only one argument, exit -1 and warn the user she needs to choose a destination
-
-# if only two arguments, exit -1 and warn the user she needs to choose a codec
-
-src="$1"
+src=$(cd "$1"; pwd) # get source's absolute path
 destination="$2"
-codec="$3"
+source_codec="$3"
+dest_codec="$4"
+
+conversion_count=0
+
+if [ "$#" -lt 3 ]; then
+  echo -e "convert: 😱 I require at least three arguments: A source directory, a destination directory and a desired codec to convert to.\nUsage: \`convert <source> <destination> <destination_codec>\`\nAlternate usage: \`convert <source> <destination> <source_codec> <destination_codec>\`"
+  exit 1
+fi
+
+if [ "$#" -eq 3 ]; then
+  source_codec='aiff'
+  dest_codec="$3"
+fi
 
 i=0
 
 function filter () {
   if [ -d "$1" ]; then
+    # if the destination doesn't exist, create it in the current directory
+    if [ ! -d "$destination" ]; then
+      mkdir "$destination"
+    fi
+
     # make breadcrumb trail of destinations
     old_dest[$i]=$destination
     i=$(($i+1))
 
     mkdir "$destination/$1"
+    echo -e "Created directory $(tput setaf 4)\"$destination/$1\"$(tput sgr0)."
     destination="$destination/$1"
-    echo "All destinations are ${old_dest[*]}"
-    echo "$destination"
+    echo -e "DESTINATION Is now $destination."
 
     # drill down to files
     cd "$1"
@@ -50,8 +65,15 @@ function filter () {
     i=$(($i-1))
   else
     # conversion happens here
-    cp $1 $destination
-    echo $1
+    if [[ $1 =~ $source_codec$ ]]; then
+      fullpath=$(find -name $1)
+      base=$(basename -s .$source_codec $1)
+      echo -e "Current directory is $(pwd)."
+      echo -e "Trying to convert $1"
+      ffmpeg -loglevel 16 -i $1 $destination/$base.$dest_codec
+      echo -e "Converted $(tput setaf 4)\"$base\"$(tput sgr0) from $(tput setaf 1)\".$source_codec\"$(tput sgr0) to $(tput setaf 2)\".$dest_codec\"$(tput sgr0)."
+      conversion_count=$(($conversion_count+1))
+    fi
   fi
 }
 
@@ -59,3 +81,10 @@ for path in $(ls -1 $src); do
   filter $path
   i=0
 done
+
+echo -e "\n--> convert: I converted $conversion_count files. 😎 🎧 <--"
+
+# restore IFS
+IFS=$OLD_IFS
+
+exit 0
