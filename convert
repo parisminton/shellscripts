@@ -11,15 +11,20 @@
 # If you don't provide a source codec, Convert will search for .aiff files by default.
 
 vrs='v0.1'
-lastchange='12/29/17'
+lastchange='1/7/18'
 echo -e "\n--> Convert $vrs $lastchange <--\n"
 
 # change IFS to newline
 OLD_IFS=$IFS
 IFS=$'\n'
 
-src=$(cd "$1"; pwd) # get source's absolute path
-destination="$2"
+orig_directory=$(pwd)
+
+# get source's absolute path
+src=$(cd "$1"; pwd) 
+cd "$orig_directory"
+
+destination=$2 # DESTINATION: At this point, this is a relative path. Later, it'll become absolute. 
 source_codec="$3"
 dest_codec="$4"
 
@@ -40,44 +45,51 @@ i=0
 function filter () {
   if [ -d "$1" ]; then
     # if the destination doesn't exist, create it in the current directory
-    if [ ! -d "$destination" ]; then
+    if [ ! -e "$destination" ]; then
       mkdir "$destination"
+      echo -e "Created directory $(tput setaf 4)\"$(pwd)/$destination\"$(tput sgr0)."
     fi
 
-    # make breadcrumb trail of destinations
-    old_dest[$i]=$destination
+    cd "$destination"
+    destination=$(pwd) # DESTINATION: This is now an absolute path
+    old_dest[$i]=$destination # make breadcrumb trail of destinations
+
+    cd "$src"
+    old_src[$i]=$src # make breadcrumb trail of sources
+
     i=$(($i+1))
 
     mkdir "$destination/$1"
     echo -e "Created directory $(tput setaf 4)\"$destination/$1\"$(tput sgr0)."
     destination="$destination/$1"
-    echo -e "DESTINATION Is now $destination."
+    src="$src/$1"
 
     # drill down to files
     cd "$1"
-    for new_path in $(ls -1); do
-      filter $new_path
+    for new_path in $(ls -1 "$src"); do
+      filter "$new_path"
     done
 
     cd ..
     destination="${old_dest[($i-1)]}"
+    src="${old_src[($i-1)]}"
     unset old_dest[$i]
+    unset old_src[$i]
     i=$(($i-1))
   else
     # conversion happens here
     if [[ $1 =~ $source_codec$ ]]; then
       fullpath=$(find -name $1)
       base=$(basename -s .$source_codec $1)
-      echo -e "Current directory is $(pwd)."
-      echo -e "Trying to convert $1"
       ffmpeg -loglevel 16 -i $1 $destination/$base.$dest_codec
       echo -e "Converted $(tput setaf 4)\"$base\"$(tput sgr0) from $(tput setaf 1)\".$source_codec\"$(tput sgr0) to $(tput setaf 2)\".$dest_codec\"$(tput sgr0)."
       conversion_count=$(($conversion_count+1))
     fi
   fi
-}
+} # end filter
 
-for path in $(ls -1 $src); do
+for path in $(ls -1 "$src"); do
+  cd "$src"
   filter $path
   i=0
 done
