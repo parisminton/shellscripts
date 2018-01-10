@@ -11,7 +11,7 @@
 # If you don't provide a source codec, Convert will search for .aiff files by default.
 
 vrs='v0.1'
-lastchange='1/7/18'
+lastchange='1/10/18'
 echo -e "\n--> Convert $vrs $lastchange <--\n"
 
 # change IFS to newline
@@ -54,28 +54,30 @@ function filter () {
     destination=$(pwd) # DESTINATION: This is now an absolute path
     old_dest[$i]=$destination # make breadcrumb trail of destinations
 
-    cd "$src"
-    old_src[$i]=$src # make breadcrumb trail of sources
+    if [ $(pwd) != $(cd "$src/$1"; pwd) ]; then
+      cd "$src"
+      old_src[$i]=$src # make breadcrumb trail of sources
 
-    i=$(($i+1))
+      i=$(($i+1))
 
-    mkdir "$destination/$1"
-    echo -e "Created directory $(tput setaf 4)\"$destination/$1\"$(tput sgr0)."
-    destination="$destination/$1"
-    src="$src/$1"
+      mkdir "$destination/$1"
+      echo -e "Created directory $(tput setaf 4)\"$destination/$1\"$(tput sgr0)."
+      destination="$destination/$1"
+      src="$src/$1"
 
-    # drill down to files
-    cd "$1"
-    for new_path in $(ls -1 "$src"); do
-      filter "$new_path"
-    done
+      # drill down to files
+      cd "$1"
+      for new_path in $(ls -1 "$src"); do
+        filter "$new_path"
+      done
 
-    cd ..
-    destination="${old_dest[($i-1)]}"
-    src="${old_src[($i-1)]}"
-    unset old_dest[$i]
-    unset old_src[$i]
-    i=$(($i-1))
+      cd ..
+      destination="${old_dest[($i-1)]}"
+      src="${old_src[($i-1)]}"
+      unset old_dest[$i]
+      unset old_src[$i]
+      i=$(($i-1))
+    fi # end it
   else
     # conversion happens here
     if [[ $1 =~ $source_codec$ ]]; then
