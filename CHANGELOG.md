@@ -4,6 +4,14 @@ Shell scripts
 Changelog
 ---------
 
+*1/17/18*
+
+**convert**
+
+Copy over album art.
+
+
+
 *12/28/17*
 
 **convert**

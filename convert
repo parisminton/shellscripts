@@ -11,7 +11,7 @@
 # If you don't provide a source codec, Convert will search for .aiff files by default.
 
 vrs='v0.1'
-lastchange='1/10/18'
+lastchange='1/17/18'
 echo -e "\n--> Convert $vrs $lastchange <--\n"
 
 # change IFS to newline
@@ -86,6 +86,10 @@ function filter () {
       ffmpeg -loglevel 16 -i $1 $destination/$base.$dest_codec
       echo -e "Converted $(tput setaf 4)\"$base\"$(tput sgr0) from $(tput setaf 1)\".$source_codec\"$(tput sgr0) to $(tput setaf 2)\".$dest_codec\"$(tput sgr0)."
       conversion_count=$(($conversion_count+1))
+    fi
+    if [[ $1 =~ jpg$|png$|gif$|pdf$ ]]; then
+      cp $1 $destination/$1
+      echo -e "Copied the image $(tput setaf 4)\"$1\"$(tput sgr0) into $(tput setaf 4)\"$destination\"$(tput sgr0)."
     fi
   fi
 } # end filter
